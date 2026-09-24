@@ -6,6 +6,10 @@ const clearButton = document.querySelector('.clear')
 const calculateButton = document.querySelector('.calculate')
 const commaButton = document.querySelector('.comma')
 const procentButton = document.querySelector('.procent')
+const historyButton = document.querySelector('.history-button')
+const historyList = document.querySelector('.history-list')
+const historyClose = document.querySelector('.history-close')
+const historyEntries = document.querySelector('.history-entries')
 
 let firstNumber = ''
 let secondNumber = ''
@@ -101,13 +105,42 @@ calculateButton.addEventListener('click', () => {
     showResult.textContent = expression
     firstNumber = result.toString()
     updateMessage(firstNumber)
+    addToHistory(expression, result)
     secondNumber = ''
     operator = ''
     isProcent = false
 })
 
+let history = []
+
+function addToHistory(expression, result) {
+    history.unshift(`${expression} = ${result}`)
+    if (history.length >= 5) {
+        history.pop()
+    }
+    renderHistory()
+}
+
+function renderHistory() {
+    historyEntries.innerHTML = ''
+    history.forEach(entry => {
+        const item = document.createElement('div')
+        item.classList.add('history-entry')
+        item.textContent = entry
+        historyEntries.appendChild(item)
+    })
+}
+
+historyButton.addEventListener('click', () => {
+    historyList.style.display = historyList.style.display === 'block' ? 'none' : 'block'
+})
+
+historyClose.addEventListener('click', () => {
+    historyList.style.display = 'none'
+})
+
 function updateMessage(text) {
     text = text.toString()
     message.textContent = text
-    message.style.fontSize = text.length > 8 ? '20px' : '36px'
+    message.style.fontSize = text.length > 8 ? '26px' : '44px'
 }

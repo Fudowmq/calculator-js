@@ -1,81 +1,243 @@
 body {
-    background-color:rgb(230,234,254);
+    background-color: #0a0a0f;
+    background-image: radial-gradient(
+        circle at 50% 0%,
+        rgba(124, 106, 255, 0.08),
+        transparent 50%
+    );
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
 
 .container {
-    margin: 100px auto;
-    max-width: 100%;
-    max-height: 100%;
-    width: 300px;
-    height: 530px;
+    margin: 0 auto;
+}
+
+.calculator {
+    width: 340px;
+    background: linear-gradient(145deg, #17171f 0%, #111118 100%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 28px;
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
+    box-sizing: border-box;
+    position: relative;
+    overflow: hidden;
+}
+
+.calculator::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.12);
 }
 
 .info {
-    height: 130px;
-    max-width: 300px;
+    height: 140px; 
     width: 100%;
     display: flex;
+    flex-direction: column;
     align-items: flex-end;
     justify-content: center;
-    flex-direction: column;
-    background-color: rgb(57,55,86);
+    background: linear-gradient(180deg, #0c0c14 0%, #0f0f1a 100%);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    box-sizing: border-box;
+    padding: 28px 24px 20px;
+    position: relative;
+    gap: 8px;
+}
+
+.history-button {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    width: 34px;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: rgba(255, 255, 255, 0.4);
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 16px;
+    transition: 0.2s ease;
     box-sizing: border-box;
 }
 
+.history-button:hover {
+    background: rgba(124, 106, 255, 0.15);
+    border-color: rgba(124, 106, 255, 0.3);
+    color: rgba(255, 255, 255, 0.8);
+}
+
 .show-result {
-    font-size: 18px;
-    margin: 0 5px;
-    color: white;
-    opacity: 0.4;
+    font-size: 14px; 
+    color: rgba(255, 255, 255, 0.22);
+    margin: 0;
 }
 
 .message {
-    margin: 0 5px;
-    font-size: 36px;
-    color: white;
+    font-size: 44px;
+    color: #f0efff;
+    text-shadow: 0 0 20px rgba(200, 195, 255, 0.15);
+    margin: 0;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    max-width: 100%;
+    transition: font-size 0.15s ease;
+}
+
+.message.error {
+    color: #ff6b6b;
+    text-shadow: 0 0 20px rgba(255, 107, 107, 0.4);
+}
+
+.history-list {
+    display: none;
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, #13131e 0%, #0f0f18 100%);
+    padding: 16px 20px;
+    box-sizing: border-box;
+    color: rgba(255, 255, 255, 0.85);
+    z-index: 2;
+}
+
+.history-close {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    color: rgba(255, 255, 255, 0.4);
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 16px;
+    transition: color 0.2s ease;
+}
+
+.history-close:hover {
+    color: rgba(255, 255, 255, 0.85);
+}
+
+.history-entries {
+    margin-top: 34px;
+    max-height: 76px;
+    overflow-y: auto;
+}
+
+.history-entry {
+    padding: 6px 4px;
+    font-size: 14px; 
+    color: rgba(255, 255, 255, 0.25);
+    border-radius: 8px;
+    transition: background 0.15s ease;
+}
+
+.history-entry:not(:first-child) {
+    border-top: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.history-entry:hover {
+    background: rgba(124, 106, 255, 0.10);
 }
 
 .main-buttons {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(4, 2fr);
+    grid-template-rows: repeat(3, 66px) 70px; 
+    gap: 8px;
+    padding: 16px;
+    box-sizing: border-box;
 }
 
 .button {
-    color: white;
+    height: 66px;
     width: 100%;
-    height: 80px;
     font-size: 22px;
-    border: 1px solid rgb(255, 255, 255, 0.3);
+    border: none;
+    border-radius: 16px;
+    cursor: pointer;
+    transition: 0.2s ease;
+    box-sizing: border-box;
 }
 
 .zero {
     grid-column: span 3;
+    height: 100%; 
+    font-size: 26px;
 }
 
-.clear,
-.button-plus,
-.button-minus,
-.button-multiplication,
-.button-division,
-.procent,
-.calculate,
+.seven, .eight, .nine,
+.four, .five, .six,
+.one, .two, .three, .zero {
+    background: rgba(255, 255, 255, 0.055);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    color: rgba(255, 255, 255, 0.85);
+}
+
+.seven:hover, .eight:hover, .nine:hover,
+.four:hover, .five:hover, .six:hover,
+.one:hover, .two:hover, .three:hover, .zero:hover {
+    background: rgba(255, 255, 255, 0.10);
+    transform: translateY(-1px);
+}
+
+.button-plus, .button-minus, .button-multiplication,
+.button-division, .procent {
+    background: rgba(124, 106, 255, 0.10);
+    border: 1px solid rgba(124, 106, 255, 0.15);
+    color: #a09aff;
+}
+
+.button-plus:hover, .button-minus:hover, .button-multiplication:hover,
+.button-division:hover, .procent:hover {
+    background: rgba(124, 106, 255, 0.18);
+    transform: translateY(-1px);
+}
+
 .comma {
-    background-color: rgb(107,130,242);
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    color: rgba(255, 255, 255, 0.5);
 }
 
+.comma:hover {
+    background: rgba(255, 255, 255, 0.08);
+}
 
-.seven,
-.eight,
-.nine,
-.four,
-.five,
-.six,
-.one ,
-.two,
-.three,
-.zero{
-    background-color: rgb(87,77,153);
+.clear {
+    background: rgba(255, 95, 87, 0.12);
+    border: 1px solid rgba(255, 95, 87, 0.15);
+    color: #ff7b73;
+}
+
+.clear:hover {
+    background: rgba(255, 95, 87, 0.2);
+}
+
+.calculate {
+    height: 70px;
+    font-size: 26px;
+    background: linear-gradient(135deg, #8b7eff 0%, #6b5ce7 100%);
+    color: #ffffff;
+    box-shadow: 0 8px 20px rgba(124, 106, 255, 0.4);
+}
+
+.calculate:hover {
+    background: linear-gradient(135deg, #9d91ff 0%, #7c6aff 100%);
+    box-shadow: 0 8px 24px rgba(124, 106, 255, 0.55);
+}
+
+.calculate:active {
+    box-shadow: 0 4px 12px rgba(124, 106, 255, 0.3);
+    transform: translateY(1px);
 }
